@@ -52,10 +52,10 @@ public:
     }
 };
 
-**Time Complexity-** O(m*n)
-**Space Complexity-** O(m*n)
+**Time Complexity- O(m*n)
+**Space Complexity- O(m*n)
 
-**Approach 2**
+##Approach 2
 
 class Solution {
   public void setZeroes(int[][] matrix) {
@@ -81,10 +81,10 @@ class Solution {
   }
 }
 
-**Time Complexity-** O(m*n)
-**Space Complexity-** O(m+n)
+**Time Complexity- O(m*n)
+**Space Complexity- O(m+n)
 
-**Approach 3**
+##Approach 3
 
 class Solution {
   public void setZeroes(int[][] matrix) {
@@ -124,5 +124,5 @@ class Solution {
   }
 }
 
-**Time Complexity-** O(m*n)
-**Space Complexity-** O(1)
+**Time Complexity- O(m*n)
+**Space Complexity- O(1)
