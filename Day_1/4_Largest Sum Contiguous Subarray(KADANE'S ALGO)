@@ -1,0 +1,114 @@
+#Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+##Approach 1
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int a= INT_MIN ,sum=0;
+        for(int i=0;i<nums.size();i++)
+        {
+           for(int j=i;j<nums.size();j++)
+           {
+               sum=0;
+               for(int k=i;k<=j;k++)
+               {
+                   sum+=nums[k];
+               }
+               if(sum>a)
+               {
+                   a=sum;
+               }
+           }
+        }
+        return a;
+    }
+};
+
+**Time Complexity- O(n*n*n)
+**Space Complexity- O(1)
+
+##Approach 2
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int a= INT_MIN ,sum=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            sum=0;
+           for(int j=i;j<nums.size();j++)
+           {
+               sum+=nums[j];
+               if(sum>a)
+               {
+                   a=sum;
+               }
+           }
+        }
+        return a;
+    }
+};
+
+**Time Complexity- O(n*n)
+**Space Complexity- O(1)
+
+##Approach 3
+
+int max(int a, int b) { return (a > b) ? a : b; }                      
+int max(int a, int b, int c) { return max(max(a, b), c); }
+int maxCrossingSum(int arr[], int l, int m, int h)
+{
+    int sum = 0;
+    int left_sum = INT_MIN;
+    for (int i = m; i >= l; i--) {
+        sum = sum + arr[i];
+        if (sum > left_sum)
+            left_sum = sum;
+    }
+    sum = 0;
+    int right_sum = INT_MIN;
+    for (int i = m + 1; i <= h; i++) {
+        sum = sum + arr[i];
+        if (sum > right_sum)
+            right_sum = sum;
+    }
+    return max(left_sum + right_sum, left_sum, right_sum);
+}
+int maxSubArraySum(int arr[], int l, int h)
+{
+    if (l == h)
+        return arr[l];
+    int m = (l + h) / 2;
+    return max(maxSubArraySum(arr, l, m),
+               maxSubArraySum(arr, m + 1, h),
+               maxCrossingSum(arr, l, m, h));
+}
+
+**Time Complexity- O(n*(log(n))
+**Space Complexity- O(1)
+
+##Approach 4
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int a= INT_MIN ,b=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            b+=nums[i];
+            if(a<b)
+            {
+                a=b;
+            }
+            if(b<0)
+            {
+                b=0;
+            }
+        }
+        return a;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
