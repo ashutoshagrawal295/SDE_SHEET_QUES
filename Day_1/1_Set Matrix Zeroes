@@ -52,30 +52,77 @@ public:
     }
 };
 
-**Time Complexity- O(m*n)
+**Time Complexity- O(m*n*(m+n))
 **Space Complexity- O(m*n)
 
 ##Approach 2
 
-class Solution {
-  public void setZeroes(int[][] matrix) {
-    int R = matrix.length;
-    int C = matrix[0].length;
-    Set<Integer> rows = new HashSet<Integer>();
-    Set<Integer> cols = new HashSet<Integer>();
-    for (int i = 0; i < R; i++) {
-      for (int j = 0; j < C; j++) {
-        if (matrix[i][j] == 0) {
-          rows.add(i);
-          cols.add(j);
+void setZeroes(vector < vector < int >> & matrix) {
+  int rows = matrix.size(), cols = matrix[0].size();
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      if (matrix[i][j] == 0) {
+
+        int ind = i - 1;
+        while (ind >= 0) {
+          if (matrix[ind][j] != 0) {
+            matrix[ind][j] = -1;
+          }
+          ind--;
+        }
+        ind = i + 1;
+        while (ind < rows) {
+          if (matrix[ind][j] != 0) {
+            matrix[ind][j] = -1;
+          }
+          ind++;
+        }
+        ind = j - 1;
+        while (ind >= 0) {
+          if (matrix[i][ind] != 0) {
+            matrix[i][ind] = -1;
+          }
+          ind--;
+        }
+        ind = j + 1;
+        while (ind < cols) {
+          if (matrix[i][ind] != 0) {
+            matrix[i][ind] = -1;
+          }
+          ind++;
         }
       }
     }
-    for (int i = 0; i < R; i++) {
-      for (int j = 0; j < C; j++) {
-        if (rows.contains(i) || cols.contains(j)) {
-          matrix[i][j] = 0;
-        }
+  }
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      if (matrix[i][j] <= 0) {
+        matrix[i][j] = 0;
+      }
+    }
+  }
+}
+
+**Time Complexity- O(m*n*(m+n))
+**Space Complexity- O(1)
+
+##Approach 3
+
+void setZeroes(vector < vector < int >> & matrix) {
+  int rows = matrix.size(), cols = matrix[0].size();
+  vector < int > dummy1(rows,-1), dummy2(cols,-1);
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      if (matrix[i][j] == 0) {
+        dummy1[i] = 0;
+        dummy2[j] = 0;
+      }
+    }
+  }
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      if (dummy1[i] == 0 || dummy2[j]==0) {
+        matrix[i][j] = 0;
       }
     }
   }
@@ -84,7 +131,7 @@ class Solution {
 **Time Complexity- O(m*n)
 **Space Complexity- O(m+n)
 
-##Approach 3
+##Approach 4
 
 class Solution {
   public void setZeroes(int[][] matrix) {
