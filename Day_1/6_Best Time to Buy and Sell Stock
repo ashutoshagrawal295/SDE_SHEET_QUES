@@ -1,0 +1,34 @@
+#You are given an array prices where prices[i] is the price of a given stock on the ith day.
+ You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+ Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+ 
+##Approach 1
+
+We can simply use 2 loops and track every transaction and maintain a variable maxPro to contain the max value among all transactions.
+
+**Time Complexity- O(n*n)
+**Space Complexity- O(1)
+
+##Approach 2
+
+class Solution {
+public:
+    int maxProfit(vector<int>& p) {
+        int ans=0,max=p[0];
+        for(int i=1;i<p.size();i++)
+        {
+            if(p[i]<max)
+            {
+                max=p[i];
+            }
+            else
+            {
+                ans=ans>p[i]-max?ans:p[i]-max;
+            }
+        }
+        return ans;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
