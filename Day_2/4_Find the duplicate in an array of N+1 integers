@@ -1,0 +1,167 @@
+#Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
+ There is only one repeated number in nums, return this repeated number.
+ 
+ ##Approach 1
+
+int findDuplicate(vector < int > & arr) {
+  int n = arr.size();
+  sort(arr.begin(), arr.end());
+  for (int i = 0; i < n - 1; i++) {
+    if (arr[i] == arr[i + 1]) {
+      return arr[i];
+    }
+  }
+}
+
+**Time Complexity- O(n*(logn))
+**Space Complexity- O(1)
+
+##Approach 2
+
+class Solution {
+    public:
+    
+    int findDuplicate(vector<int>& nums) {
+        auto small_or_equal = [&](int cur) {
+            int count = 0;
+            for (auto &num: nums) {
+                if (num <= cur)
+                    count++;
+            }
+            return count;
+        };
+        int low = 1, high = nums.size();
+        int duplicate = -1;
+        while (low <= high) {
+            int cur = (low + high) / 2;
+            if (small_or_equal(cur) > cur) { 
+                duplicate = cur;
+                high = cur - 1;
+            } else {
+                low = cur + 1;
+            }
+        }
+        return duplicate;
+    }
+};
+  
+**Time Complexity- O(n*(logn))
+**Space Complexity- O(1)
+
+##Approach 3
+
+class Solution {
+public:
+    
+    // Find the position of the Most Significant Bit in num
+    int calcMaxBit(int num) {
+        int bits = 0;
+        while (num > 0) {
+            num /= 2;
+            bits++;
+        }
+        return bits;
+    }
+    
+    int findDuplicate(vector<int>& nums) {
+        int duplicate = 0;
+        int n = nums.size() - 1;
+        int max_num = *max_element(nums.begin(), nums.end());
+        int max_bit = calcMaxBit(max_num);
+        for (int bit = 0; bit < max_bit; bit++) {
+            int mask = (1 << bit);
+            int base_count = 0, nums_count = 0;
+            
+            for (int i = 0; i <= n; i++) {
+                if (i & mask) {
+                    base_count++;
+                }
+                if (nums[i] & mask) {
+                    nums_count++;
+                }
+            }
+            if (nums_count > base_count) {
+                duplicate |= mask;
+            }
+        }
+        return duplicate;
+    }
+};
+  
+**Time Complexity- O(n*logn)
+**Space Complexity- O()
+
+##Approach 4
+
+int findDuplicate(vector < int > & arr) {
+  int n = arr.size();
+  int freq[n + 1] = {0};
+  for (int i = 0; i < n; i++) {
+    if (freq[arr[i]] == 0) {
+      freq[arr[i]] += 1;
+    } else {
+      return arr[i];
+    }
+  }
+  return 0;
+}
+  
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+##Approach 5
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int duplicate = -1;
+        for (int i = 0; i < nums.size(); i++) {
+            int cur = abs(nums[i]);
+            if (nums[cur] < 0) {
+                duplicate = cur;
+                break;
+            }
+            nums[cur] *= -1;
+        }
+        for (auto& num : nums)
+            num = abs(num);
+        return duplicate;
+    }
+};
+  
+**Time Complexity- O(n)(two traversal)
+**Space Complexity- O(1)
+
+##Approach 6
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        while (nums[0] != nums[nums[0]])
+            swap(nums[0], nums[nums[0]]);
+        return nums[0];
+    }
+};
+  
+**Time Complexity- O(n)
+**Space Complexity- O(1)
+
+##Approach 7
+
+int findDuplicate(vector < int > & nums) {
+  int slow = nums[0];
+  int fast = nums[0];
+  do {
+    slow = nums[slow];
+    fast = nums[nums[fast]];
+  } while (slow != fast);
+  fast = nums[0];
+  while (slow != fast) {
+    slow = nums[slow];
+    fast = nums[fast];
+  }
+  return slow;
+}
+  
+**Time Complexity- O(n)
+**Space Complexity- O(1)
