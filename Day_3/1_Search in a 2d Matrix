@@ -1,0 +1,120 @@
+#Given an m*n 2D matrix and an integer, write a program to find if the given integer exists in the matrix.
+ Given matrix has the following properties:
+ Integers in each row are sorted from left to right.
+ The first integer of each row is greater than the last integer of the previous row.
+ 
+##Approach 1
+ 
+Traverse through every element.
+ 
+**Time Complexity- O(m*n)
+**Space Complexity- O(1)
+ 
+##Approach 2
+ 
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& m, int target) {
+        int l=0,h=m[0].size()-1;
+        while(l<=m.size()-1&&h>=0)
+        {
+            if(target==m[l][h])
+            {
+                return true;
+            }
+            else if(target<m[l][h])
+            {
+                h--;
+            }
+            else{
+                l++;
+            }
+        }
+        return false;
+    }
+};
+ 
+**Time Complexity- O(m+n)
+**Space Complexity- O(1)
+
+##Approach 3
+ 
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int lo = 0;
+        if(!matrix.size()) return false;
+        int hi = (matrix.size() * matrix[0].size()) - 1;
+        
+        while(lo <= hi) {
+            int mid = (lo + (hi - lo) / 2);
+            if(matrix[mid/matrix[0].size()][mid % matrix[0].size()] == target) {
+                return true;
+            }
+            if(matrix[mid/matrix[0].size()][mid % matrix[0].size()] < target) {
+                lo = mid + 1;
+            }
+            else {
+                hi = mid - 1;
+            }
+        }
+        return false;
+    }
+};
+ 
+**Time Complexity- O(log(m*n))
+**Space Complexity- O(1)
+
+##Approach 4
+ 
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& m, int target) {
+        int l=0,h=m.size()-1,c=m[0].size();
+        int mid;
+        while(l<=h)
+        {
+            mid=l+(h-l)/2;
+            if(target>=m[mid][0]&&target<=m[mid][c-1])
+            {
+                break;
+            }
+            else if(target<m[mid][0])
+            {
+                h=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        if(l>h)
+        {
+            return false;
+        }
+        l=0,h=c-1;
+        int mid2;
+        while(l<=h)
+        {
+            mid2=l+(h-l)/2;
+            if(target==m[mid][mid2])
+            {
+                break;
+            }
+            else if(target<m[mid][mid2])
+            {
+                h=mid2-1;
+            }
+            else{
+                l=mid2+1;
+            }
+        }
+        if(l>h)
+        {
+            return false;
+        }
+        return true;
+    }
+};
+ 
+**Time Complexity- O(log(m)*log(n))
+**Space Complexity- O(1)
