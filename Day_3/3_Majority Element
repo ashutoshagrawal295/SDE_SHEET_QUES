@@ -46,6 +46,47 @@ class Solution {
 ##Approach 4
 
 class Solution {
+public:
+    int count(int l,int h,int num,vector<int>& nums)
+    {
+        int c=0;
+        for(int n=l;n<=h;n++)
+        {
+            if(nums[n]==num)
+            {
+                c++;
+            }
+        }
+        return c;
+    }
+    int sol(int l,int h,vector<int>& nums)
+    {
+        if(l==h)
+        {
+            return nums[l];
+        }
+        int mid=l+(h-l)/2;
+        int left=sol(l,mid,nums);
+        int right=sol(mid+1,h,nums);
+        if(left==right)
+        {
+            return left;
+        }
+        int lcount=count(l,mid,left,nums);
+        int rcount=count(mid+1,h,right,nums);
+        return lcount>rcount?left:right;
+    }
+    int majorityElement(vector<int>& nums) {
+        return sol(0,nums.size()-1,nums);
+    }
+};
+
+**Time Complexity- O(n*log(n))
+**Space Complexity- O(1)
+
+##Approach 5
+
+class Solution {
     public int majorityElement(int[] nums) {
         int count = 0;
         Integer candidate = null;
