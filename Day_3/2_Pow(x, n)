@@ -11,7 +11,7 @@ double myPow(double x, int n) {
 }
 
 **Time Complexity- O(n)
-**Space Complexity- (1)
+**Space Complexity- O(1)
 
 ##Approach 2
 
@@ -37,7 +37,7 @@ double power(double x, int y)
 }
 
 **Time Complexity- O(log(n))
-**Space Complexity- (1)
+**Space Complexity- O(1)
 
 ##Approach 3
 
@@ -59,4 +59,4 @@ float power(float x, int y)
 }
 
 **Time Complexity- O(log(n))
-**Space Complexity- (1)
+**Space Complexity- O(1)
