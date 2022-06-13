@@ -1,0 +1,42 @@
+#Given the head of a singly linked list, return the middle node of the linked list.
+If there are two middle nodes, return the second middle node.
+
+##Approach 1
+
+class Solution {
+public:
+	ListNode* middleNode(ListNode* head) {
+    	int n = 0;
+    	ListNode* temp = head;
+    	while(temp) {
+        	n++;
+        		temp = temp->next;
+    	}
+   	 
+    	temp = head;
+   	 
+    	for(int i = 0; i < n / 2; i++) {
+        		temp = temp->next;
+    	}
+   	 
+    	return temp;
+	}
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
+
+##Approach 2
+
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode *slow = head, *fast = head;
+        while (fast && fast->next)
+            slow = slow->next, fast = fast->next->next;
+        return slow;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
