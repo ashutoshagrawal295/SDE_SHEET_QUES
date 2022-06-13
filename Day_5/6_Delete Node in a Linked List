@@ -1,0 +1,14 @@
+#Write a function to delete a node in a singly-linked list. You will be given access to the node(not a tail node) to be deleted directly.
+
+##Approach 1
+
+class Solution {
+public:
+    void deleteNode(ListNode* t) {
+    t->val = t->next->val;
+    t->next = t->next->next;
+    }
+};
+
+**Time Complexity- O(1)
+**Space Complexity- O(1)
