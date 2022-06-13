@@ -1,0 +1,50 @@
+#Given the head of a singly linked list, reverse the list, and return the reversed list.
+
+##Approach 1
+
+using stack or array
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+##Approach 2
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode*p=head;
+        ListNode*q=NULL;
+        ListNode*r=NULL;
+        while(p)
+        {
+            r=q;
+            q=p;
+            p=p->next;
+            q->next=r;
+        }
+        head=q;
+        return head;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
+
+##Approach 3
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* &head) {
+
+        if (head == NULL||head->next==NULL)
+            return head;
+
+        ListNode* nnode = reverseList(head->next);
+        head->next->next = head;
+        head->next = NULL;
+        return nnode;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
