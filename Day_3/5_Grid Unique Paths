@@ -1,0 +1,83 @@
+#Given a matrix m X n, count paths from left-top to the right bottom of a matrix with the constraints 
+ that from each cell you can either only move to the rightward direction or the downward direction.
+ 
+##Approach 1
+
+class Solution {
+public:
+     int countPaths(int i,int j,int n,int m)
+    {
+        if(i==(n-1)&&j==(m-1)) return 1;
+        if(i>=n||j>=m) return 0;
+        else return countPaths(i+1,j,n,m)+countPaths(i,j+1,n,m);
+    }
+    int uniquePaths(int m, int n) {
+       return countPaths(0,0,m,n);
+    }
+};
+
+**Time Complexity- O(2^(n*m))
+**Space Complexity- O(1)
+
+##Approach 2
+
+class Solution {
+public:
+    int countPaths(int i,int j,int n,int m,vector<vector<int>> &dp)
+    {
+        if(i==(n-1)&&j==(m-1)) return 1;
+        if(i>=n||j>=m) return 0;
+        if(dp[i][j]!=-1) return dp[i][j];
+     else return dp[i][j]=countPaths(i+1,j,n,m,dp)+countPaths(i,j+1,n,m,dp);
+        
+    }
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m+1,vector<int>(n+1,-1));
+       int num=countPaths(0,0,m,n,dp);
+        if(m==1&&n==1)
+            return num;
+        return dp[0][0];
+    }
+};
+
+**Time Complexity- O(n*m)
+**Space Complexity- O(n*m)
+
+##Approach 3
+r(n r)=(n-r+1)(n r-1)
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+            int N = n + m - 2;
+            int r = m - 1; 
+            double res = 1;
+            
+            for (int i = 1; i <= r; i++)
+                res = res * (N - r + i) / i;
+            return (int)res;
+    }
+};
+
+**Time Complexity- O(n)/O(m)
+**Space Complexity- O(1)
+
+##Approach 4
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        if(m>n)
+        {
+            swap(m,n);
+        }
+        long long x=1;
+        for(int i=1;i<m;i++)
+        {
+            x=x*(n+m-2-i+1)/i;
+        }
+        return (int)x;
+    }
+};
+
+**Time Complexity- O(n)/O(m)
+**Space Complexity- O(1)
