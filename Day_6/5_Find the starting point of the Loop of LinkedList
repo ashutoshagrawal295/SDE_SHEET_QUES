@@ -1,0 +1,66 @@
+#Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+##Approach 1
+
+node* detectCycle(node* head) {
+    unordered_set<node*> st;
+    while(head != NULL) {
+        if(st.find(head) != st.end()) return head;
+        st.insert(head);
+        head = head->next;
+    }
+    return NULL;
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+##Approach 2
+
+Node* detectLoop(Node* head)
+{
+    Node* temp = new Node;
+    while (head != NULL) {
+        if (head->next == NULL) {
+            return NULL;
+        }
+        if (head->next == temp) {
+            break;
+        }
+        Node* nex = head->next;
+        head->next = temp;
+        head = nex;
+    }
+    return head;
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
+
+##Approach 3
+
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode*p=head,*q=head;
+        while(q&&q->next)
+        {
+            p=p->next;
+            q=q->next->next;
+            if(p==q)
+            {
+                p=head;
+                while(p!=q)
+                {
+                    p=p->next;
+                    q=q->next;
+                }
+                return p;
+            }
+        }
+        return NULL;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
