@@ -1,0 +1,53 @@
+#Given the head of a linked list, rotate the list to the right by k places.
+
+##Approach 1
+
+node* rotateRight(node* head,int k) {
+    if(head == NULL||head->next == NULL) return head;
+    for(int i=0;i<k;i++) {
+        node* temp = head;
+        while(temp->next->next != NULL) temp = temp->next;
+        node* end = temp->next;
+        temp->next = NULL;
+        end->next = head;
+        head = end;
+    }
+    return head;
+}
+
+**Time Complexity-O(n*k)
+**Space Complexity-O(1)
+
+##Approach 1
+
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(!head)
+        {
+            return NULL;
+        }
+        ListNode* p=head;int l=1;
+        while(p->next)
+        {
+            p=p->next;
+            l++;
+        }
+        k%=l;
+        if(k)
+        {
+            p->next=head;
+            p=p->next;
+            for(int i=1;i<l-k;i++)
+            {
+                p=p->next;
+            }
+            head=p->next;
+            p->next=NULL;
+        }
+        return head;
+    }
+};
+
+**Time Complexity-O(n)
+**Space Complexity-O(1)
