@@ -1,0 +1,67 @@
+#You are given the heads of two sorted linked lists list1 and list2.Return the head of the merged linked list.
+
+##Approach 1
+
+using another linked list to store
+
+**Time Complexity- O(m+n)
+**Space Complexity- O(m+n)
+
+##Approach 2
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode *p=list1,*q=list2,*head=NULL,*l=NULL;
+        if(p&&q)
+        {
+            if(p->val<=q->val)
+            {
+                head=l=p;
+                p=p->next;
+            }
+            else
+            {
+                head=l=q;
+                q=q->next;
+            }
+        }
+        else if(p)
+        {
+            head=l=p;
+            p=p->next;
+        }
+        else if(q)
+        {
+            head=l=q;
+            q=q->next;
+        }
+        while(p&&q)
+        {
+            if(p->val<=q->val)
+            {
+                head->next=p;
+                p=p->next;
+                head=head->next;
+            }
+            else
+            {
+                head->next=q;
+                q=q->next;
+                head=head->next;
+            }
+        }
+        if(p)
+        {
+            head->next=p;
+        }
+        if(q)
+        {
+            head->next=q;
+        }
+        return l;
+    }
+};
+
+**Time Complexity- O(m+n)
+**Space Complexity- O(m+n)
