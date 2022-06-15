@@ -5,18 +5,33 @@ If there are two middle nodes, return the second middle node.
 
 class Solution {
 public:
+    ListNode* middleNode(ListNode* head) {
+        vector<ListNode*> A = {head};
+        while (A.back()->next != NULL)
+            A.push_back(A.back()->next);
+        return A[A.size() / 2];
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+##Approach 2
+
+class Solution {
+public:
 	ListNode* middleNode(ListNode* head) {
     	int n = 0;
     	ListNode* temp = head;
     	while(temp) {
         	n++;
-        		temp = temp->next;
+        	temp = temp->next;
     	}
    	 
     	temp = head;
    	 
     	for(int i = 0; i < n / 2; i++) {
-        		temp = temp->next;
+        	temp = temp->next;
     	}
    	 
     	return temp;
@@ -26,7 +41,7 @@ public:
 **Time Complexity- O(n)
 **Space Complexity- O(1)
 
-##Approach 2
+##Approach 3
 
 class Solution {
 public:
