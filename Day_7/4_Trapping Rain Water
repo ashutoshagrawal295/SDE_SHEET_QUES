@@ -48,7 +48,7 @@ int trap(vector < int > & arr) {
 **Time Complexity-O(n)
 **Space Complexity-O(n)
 
-##Approach 1
+##Approach 3
 
 int trap(vector < int > & height) {
   int n = height.size();
