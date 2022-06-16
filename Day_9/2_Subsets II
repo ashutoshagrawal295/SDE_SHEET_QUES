@@ -28,7 +28,7 @@ vector<vector<int> > findPowerSet(vector<int>& nums)
 }
 
 **Time Compexity- O(n*2^n)
-**Space Complexity- O(2^n)
+**Space Complexity- O(k*2^n)
 
 ##Approach 2
 
