@@ -1,0 +1,44 @@
+#Given a list arr of N integers, print sums of all subsets in it.
+
+##Approach 1
+
+void subsetSums(int arr[], int n)
+{
+    long long total = 1 << n;
+    for (long long i = 0; i < total; i++) {
+        long long sum = 0;
+        for (int j = 0; j < n; j++)
+            if (i & (1 << j))
+                sum += arr[j];
+        cout << sum << " ";
+    }
+}
+
+**Time Compexity- O(n*2^n)
+**Space Complexity- O(n)
+
+##Approach 2
+
+class Solution
+{
+public:
+    void s(vector<int> arr,int su, int N,vector<int>&v)
+    {
+        if(N==0)
+        {
+            v.push_back(su);
+            return ;
+        }
+        s(arr,su,N-1,v);
+        s(arr,su+arr[N-1],N-1,v);
+    }
+    vector<int> subsetSums(vector<int> arr, int N)
+    {
+        vector<int> v;
+        s(arr,0,N,v);
+        return v;
+    }
+};
+
+**Time Compexity- O(2^n)
+**Space Complexity- O(n)
