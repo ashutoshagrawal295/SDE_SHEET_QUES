@@ -1,0 +1,34 @@
+#There is one meeting room in a firm. There are N meetings in the form of (start[i], end[i]).What is the maximum number of meetings that can be accommodated 
+ in the meeting room when only one meeting can be held in the meeting room at a particular time?
+ Note: Start time of one chosen meeting can't be equal to the end time of the other chosen meeting.
+ 
+ ##Approach 1
+
+class Solution
+{
+    public:
+    int maxMeetings(int start[], int end[], int n)
+    {
+        vector<pair<int,int>> v(n);
+        int c=1;
+        for(int i=0;i<n;i++)
+        {
+            v[i].first=end[i];
+            v[i].second=start[i];
+        }
+        sort(v.begin(),v.end(),[](pair<int,int> a,pair<int,int> b){return a.first<b.first;});
+        int l=v[0].first;
+        for(int i=1;i<n;i++)
+        {
+            if(v[i].second>l)
+            {
+                c++;
+                l=v[i].first;
+            }
+        }
+        return c;
+    }
+};
+
+**Time Compexity- O(n*logn)
+**Space Complexity- O(n)
