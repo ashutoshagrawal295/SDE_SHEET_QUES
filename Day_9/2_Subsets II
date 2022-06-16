@@ -59,4 +59,4 @@ public:
 };
 
 **Time Compexity- O(k*2^n)
-**Space Complexity- O(k*2^n)
+**Space Complexity- O(k*2^n)k is the average length.
