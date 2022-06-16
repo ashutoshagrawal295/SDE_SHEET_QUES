@@ -15,7 +15,7 @@ void subsetSums(int arr[], int n)
 }
 
 **Time Compexity- O(n*2^n)
-**Space Complexity- O(n)
+**Space Complexity- O(2^n)
 
 ##Approach 2
 
@@ -41,4 +41,4 @@ public:
 };
 
 **Time Compexity- O(2^n)
-**Space Complexity- O(n)
+**Space Complexity- O(2^n)
