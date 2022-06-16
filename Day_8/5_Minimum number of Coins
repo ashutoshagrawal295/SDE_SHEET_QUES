@@ -1,0 +1,31 @@
+#Given an infinite supply of each denomination of Indian currency { 1, 2, 5, 10, 20, 50, 100, 200, 500, 2000 } and a target value N.
+Find the minimum number of coins and/or notes needed to make the change for Rs N.
+
+##Approach 1
+
+class Solution{
+public:
+    vector<int> minPartition(int n)
+    {
+        vector<int> arr={ 1, 2, 5, 10, 20, 50, 100, 200, 500, 2000 },v;
+        int j=arr.size()-1,c=0;
+        while(n>0)
+        {
+            if(n>=arr[j])
+            {
+                c+=n/arr[j];
+                while(c)
+                {
+                    v.push_back(arr[j]);
+                    c--;
+                }
+                n%=arr[j];
+            }
+            j--;
+        }
+        return v;
+    }
+};
+
+**Time Compexity- O(1)
+**Space Complexity- O(1)
