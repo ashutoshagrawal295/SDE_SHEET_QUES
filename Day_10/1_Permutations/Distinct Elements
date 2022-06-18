@@ -1,0 +1,62 @@
+#Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+
+##Approach 1
+
+class Solution {
+  private:
+    void recurPermute(vector < int > & ds, vector < int > & nums, vector < vector < int >> & ans, int freq[]) {
+      if (ds.size() == nums.size()) {
+        ans.push_back(ds);
+        return;
+      }
+      for (int i = 0; i < nums.size(); i++) {
+        if (!freq[i]) {
+          ds.push_back(nums[i]);
+          freq[i] = 1;
+          recurPermute(ds, nums, ans, freq);
+          freq[i] = 0;
+          ds.pop_back();
+        }
+      }
+    }
+  public:
+    vector < vector < int >> permute(vector < int > & nums) {
+      vector < vector < int >> ans;
+      vector < int > ds;
+      int freq[nums.size()];
+      for (int i = 0; i < nums.size(); i++) freq[i] = 0;
+      recurPermute(ds, nums, ans, freq);
+      return ans;
+    }
+};
+
+**Time Complexity- O(n!*n)
+**Space Complexity- O(n)
+
+##Approach 2
+
+class Solution {
+public:
+    void per(vector<int>& nums,vector<vector<int>> &v,int k)
+    {
+        if(k==nums.size()-1)
+        {
+            v.push_back(nums);
+            return ;
+        }
+        for(int i=k;i<nums.size();i++)
+        {
+            swap(nums[k],nums[i]);
+            per(nums,v,k+1);
+            swap(nums[k],nums[i]);
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> v;
+        per(nums,v,0);
+        return v;
+    }
+};
+
+**Time Complexity- O(n!*n)
+**Space Complexity- O(1)
