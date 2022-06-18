@@ -1,0 +1,75 @@
+#You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+Initially, all next pointers are set to NULL.
+
+ ##Approach 1
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if(root==NULL)
+        {
+            return root;
+        }
+        queue<Node *> q;
+        Node* p;
+        q.push(root);
+        q.push(NULL);
+        while(!q.empty())
+        {
+            p=q.front();
+            q.pop();
+            if(p)
+            {
+                p->next=q.front();
+                if(p->left)
+                {
+                    q.push(p->left);
+                }
+                if(p->right)
+                {
+                    q.push(p->right);
+                }
+            }
+            else
+            {
+                if(!q.empty())
+                {
+                    q.push(NULL);
+                }
+            }
+        }
+        return root;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+ ##Approach 2
+
+void connectRecur(struct node* p)
+{
+    if (!p)
+        return;
+    if (p->left)
+        p->left->nextRight = p->right;
+    if (p->right)
+        p->right->nextRight = (p->nextRight) ? p->nextRight->left : NULL;
+    connectRecur(p->left);
+    connectRecur(p->right);
+}
+void connect(struct node* p)
+{
+    p->nextRight = NULL;
+    connectRecur(p);
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
