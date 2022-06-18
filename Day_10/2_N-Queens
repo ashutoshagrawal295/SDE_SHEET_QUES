@@ -1,0 +1,113 @@
+#The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+ Given an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.
+ Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.
+ 
+##Approach 1
+
+class Solution {
+public:
+    bool valid(int r,int c,vector<string> &vec)
+    {
+        int n=vec.size();
+        for(int i=0;i<n;i++)
+        {
+            if(vec[r][i]=='Q')
+            {
+                return 0;
+            }
+        }
+        int i=r,j=c;
+        while(i<n&&j>=0)
+        {
+            if(vec[i][j]=='Q')
+            {
+                return 0;
+            }
+            i++;
+            j--;
+        }
+        i=r,j=c;
+        while(i>=0&&j>=0)
+        {
+            if(vec[i][j]=='Q')
+            {
+                return 0;
+            }
+            i--;
+            j--;
+        }
+        return 1;
+    }
+    void queen(vector<vector<string>> &v,vector<string> &vec,int k)
+    {
+        if(k==vec.size())
+        {
+            v.push_back(vec);
+            return ;
+        }
+        for(int i=0;i<vec.size();i++)
+        {
+            if(valid(i,k,vec))
+            {
+                vec[i][k]='Q';
+                queen(v,vec,k+1);
+                vec[i][k]='.';
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> v;
+        vector<string> vec;
+        string s(n,'.');
+        for(int i=0;i<n;i++)
+        {
+            vec.push_back(s);
+        }
+        queen(v,vec,0);
+        return v;
+    }
+};
+
+**Time Complexity- O(n!*n)(3 traversal fpr valid)
+**Space Complexity- O(n*n)
+
+##Approach 2
+
+class Solution {
+  public:
+    void solve(int col, vector < string > & board, vector < vector < string >> & ans, vector < int > & leftrow, vector < int > & upperDiagonal, vector < int > & lowerDiagonal, int n) {
+      if (col == n) {
+        ans.push_back(board);
+        return;
+      }
+      for (int row = 0; row < n; row++) {
+        if (leftrow[row] == 0 && lowerDiagonal[row + col] == 0 && upperDiagonal[n - 1 + col - row] == 0) {
+          board[row][col] = 'Q';
+          leftrow[row] = 1;
+          lowerDiagonal[row + col] = 1;
+          upperDiagonal[n - 1 + col - row] = 1;
+          solve(col + 1, board, ans, leftrow, upperDiagonal, lowerDiagonal, n);
+          board[row][col] = '.';
+          leftrow[row] = 0;
+          lowerDiagonal[row + col] = 0;
+          upperDiagonal[n - 1 + col - row] = 0;
+        }
+      }
+    }
+
+  public:
+    vector < vector < string >> solveNQueens(int n) {
+      vector < vector < string >> ans;
+      vector < string > board(n);
+      string s(n, '.');
+      for (int i = 0; i < n; i++) {
+        board[i] = s;
+      }
+      vector < int > leftrow(n, 0), upperDiagonal(2 * n - 1, 0), lowerDiagonal(2 * n - 1, 0);
+      solve(0, board, ans, leftrow, upperDiagonal, lowerDiagonal, n);
+      return ans;
+    }
+};
+
+**Time Complexity- O(n!*n)
+**Space Complexity- O(n*n)(3 array for valid)
