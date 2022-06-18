@@ -1,0 +1,61 @@
+#You are given the root of a binary search tree (BST) and an integer val.
+ Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
+ 
+##Approach 1
+
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        TreeNode* p=root;
+        while(p)
+        {
+            if(p->val>val)
+            {
+                p=p->left;
+            }
+            else if(p->val<val)
+            {
+                p=p->right;
+            }
+            else
+            {
+                return p;
+            }
+        }
+        return NULL;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
+
+##Approach 2
+
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if(root==NULL)
+        {
+            return NULL;
+        }
+        else
+        {
+            if(root->val==val)
+            {
+                return root;
+            }
+            else if(root->val>val)
+            {
+                root = searchBST(root->left, val); 
+            }
+            else
+            {
+                root = searchBST(root->right, val); 
+            }
+        }
+        return root;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
