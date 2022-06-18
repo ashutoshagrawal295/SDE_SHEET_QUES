@@ -1,0 +1,41 @@
+#You are given two positive integers N and M. You have to find the Nth root of M i.e. M^(1/N).
+
+##Approach 1
+
+double multiply(double mid,int n)
+{
+    if(n==0)
+    {
+        return 1.0;
+    }
+    double temp=multiply(mid,n/2);
+    if(n%2==0)
+    {
+        return temp*temp;
+    }
+    else
+    {
+        return mid*temp*temp;
+    }
+}
+double findNthRootOfM(int n, long long m) {
+    double l=0,h=m;
+    double mid=l+(h-l)/2.0;
+    while(h-l>1e-7)
+    {
+        mid=l+(h-l)/2;
+        if(multiply(mid,n)<m)
+        {
+            l=mid;
+        }
+        else
+        {
+            h=mid;
+        }
+    }
+    return l;
+}
+
+
+**Time Complexity- O(logn*log(m*10^d)d is precision.
+**Space Complexity- O(1)
