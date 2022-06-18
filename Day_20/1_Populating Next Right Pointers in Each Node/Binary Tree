@@ -1,0 +1,48 @@
+ ##Approach 1
+
+void connectRecur(struct node* p)
+{
+    if (!p)
+       return;
+    if (p->nextRight != NULL)
+       connectRecur(p->nextRight);
+    if (p->left)
+    {
+       if (p->right)
+       {
+           p->left->nextRight = p->right;
+           p->right->nextRight = getNextRight(p);
+       }
+       else
+           p->left->nextRight = getNextRight(p);
+       connectRecur(p->left);
+    }
+    else if (p->right)
+    {
+        p->right->nextRight = getNextRight(p);
+        connectRecur(p->right);
+    }
+    else
+       connectRecur(getNextRight(p));
+}
+struct node *getNextRight(struct node *p)
+{
+    struct node *temp = p->nextRight;
+    while(temp != NULL)
+    {
+        if(temp->left != NULL)
+            return temp->left;
+        if(temp->right != NULL)
+            return temp->right;
+        temp = temp->nextRight;
+    }
+    return NULL;
+}
+void connect (struct node *p)
+{
+    p->nextRight = NULL;
+    connectRecur(p);
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
