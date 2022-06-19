@@ -1,0 +1,103 @@
+#Given the root of a binary tree, return the postorder traversal of its nodes' values.
+
+##Approach 1
+
+    vector<int> v;
+    vector<int> postorderTraversal(TreeNode* root) {
+        if(root==NULL)
+        {
+            return v;
+        }
+        postorderTraversal(root->left);
+        postorderTraversal(root->right);
+        v.push_back(root->val);
+        return v;
+    }
+
+**Time Complexity- O(n)
+**Space Complexity-O(1)
+
+##Approach 2
+
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> v;
+        TreeNode*p;
+        stack<TreeNode*> s,s2;
+        s.push(root);
+        while(s.empty()==false)
+        {
+                p=s.top();
+                s.pop();
+            if(p)
+            {
+                s2.push(p);
+                s.push(p->left);
+                s.push(p->right);
+            }
+        }
+        while(s2.empty()==false)
+        {
+            p=s2.top();
+            s2.pop();
+            v.push_back(p->val);
+        }
+        return v;
+    }
+
+**Time Complexity- O(n)
+**Space Complexity-O(n)
+
+##Approach 3
+
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> v;
+        if(root==NULL)
+        {
+            return v;
+        }
+        TreeNode*p,*q=NULL;
+        stack<TreeNode*> s;
+        s.push(root);
+        while(s.empty()==false)
+        {
+            p=s.top();
+            if(q==NULL||q->left==p||q->right==p)
+            {
+                if(p->left)
+                {
+                    s.push(p->left);
+                }
+                else if(p->right)
+                {
+                    s.push(p->right);
+                }
+                else
+                {
+                    s.pop();
+                    v.push_back(p->val);
+                }
+            }
+            else if(q==p->left)
+            {
+                if(p->right)
+                {
+                    s.push(p->right);
+                }
+                else
+                {
+                    s.pop();
+                    v.push_back(p->val);
+                }
+            }
+            else if(p->right==q)
+            {
+                s.pop();
+                v.push_back(p->val);
+            }
+            q=p;
+        }
+        return v;
+    }
+
+**Time Complexity- O(n)
+**Space Complexity-O(n)
