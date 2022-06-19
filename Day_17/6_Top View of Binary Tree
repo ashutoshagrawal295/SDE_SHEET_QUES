@@ -1,0 +1,79 @@
+#Given below is a binary tree.The task is to print the top view of binary tree. Top view of a binary tree is the set of nodes visible when the tree is viewed from the top
+ Note: Return nodes from leftmost node to rightmost node.
+ 
+##Approach 1
+
+class Solution
+{
+    public:
+    vector<int> topView(Node *root)
+    {
+        vector<int> v;
+        unordered_map<int,int> m;
+        int min=0,max=0;
+        queue<pair<Node*,int>>q;
+        q.push({root,0});
+        while(!q.empty())
+        {
+            auto p=q.front();
+            q.pop();
+            if(m.find(p.second)==m.end())
+            {
+                m[p.second]=p.first->data;
+            }
+            if(p.first->left)
+            {
+                q.push({p.first->left,p.second-1});
+            }
+            if(p.first->right)
+            {
+                q.push({p.first->right,p.second+1});
+            }
+            if(min>p.second)
+            {
+                min=p.second;
+            }
+            else if(max<p.second)
+            {
+                max=p.second;
+            }
+        }
+        for(int i=min;i<=max;i++)
+        {
+            v.push_back(m[i]);
+        }
+        return v;
+    }
+
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+##Approach 2
+
+void fillMap(Node* root, int d, int l,
+             map<int, pair<int, int> >& m)
+{
+    if (root == NULL)
+        return;
+    if (m.count(d) == 0) {
+        m[d] = make_pair(root->data, l);
+    }
+    else if (m[d].second > l) {
+        m[d] = make_pair(root->data, l);
+    }
+    fillMap(root->left, d - 1, l + 1, m);
+    fillMap(root->right, d + 1, l + 1, m);
+}
+void topView(struct Node* root)
+{
+    map<int, pair<int, int> > m;
+    fillMap(root, 0, 0, m); 
+    for (auto it = m.begin(); it != m.end(); it++) {
+        cout << it->second.first << " ";
+    }
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
