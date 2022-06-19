@@ -1,0 +1,32 @@
+#Given a Binary Tree A containing N nodes.You need to find the path from Root to a given node B.
+ NOTE:
+ No two nodes in the tree have same data values.
+ You can assume that B is present in the tree A and a path always exists.
+ 
+##Approach 1
+
+int search(TreeNode* root, int n,vector<int> &v)
+ {
+    if(root)
+    {
+        v.push_back(root->val);
+        if(root->val==n)
+        {
+            return 1;
+        }
+        if(search(root->left,n,v)||search(root->right,n,v))
+        {
+            return 1;
+        }
+        v.pop_back();
+    }
+    return 0;
+ }
+vector<int> Solution::solve(TreeNode* root, int n) {
+    vector<int> v;
+    search(root,n,v);
+    return v;
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
