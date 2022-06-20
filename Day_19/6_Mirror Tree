@@ -1,0 +1,20 @@
+#Given a Binary Tree, convert it into its mirror.
+
+##Approach 1
+
+class Solution {
+  public:
+    void mirror(Node* node) {
+        if(node)
+        {
+            Node* temp=node->left;
+            node->left=node->right;
+            node->right=temp;
+            mirror(node->left);
+            mirror(node->right);
+        }
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity-O(1)
