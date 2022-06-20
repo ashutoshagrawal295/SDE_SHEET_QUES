@@ -1,0 +1,71 @@
+#Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.According to the definition of LCA on Wikipedia: “The lowest common ancestor is
+ defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+##Approach 1
+
+bool findPath(Node *root, vector<int> &path, int k)
+{
+    if (root == NULL) return false;
+    path.push_back(root->key);
+    if (root->key == k)
+        return true;
+    if ( (root->left && findPath(root->left, path, k)) ||
+         (root->right && findPath(root->right, path, k)) )
+        return true;
+    path.pop_back();
+    return false;
+}
+int findLCA(Node *root, int n1, int n2)
+{
+    vector<int> path1, path2;
+    if ( !findPath(root, path1, n1) || !findPath(root, path2, n2))
+          return -1;
+    int i;
+    for (i = 0; i < path1.size() && i < path2.size() ; i++)
+        if (path1[i] != path2[i])
+            break;
+    return path1[i-1];
+}
+
+**Time Complexity- O(n)
+**Space Complexity-O(logn)
+
+##Approach 2
+
+struct Node *findLCAUtil(struct Node* root, int n1, int n2, bool &v1, bool &v2)
+{
+    if (root == NULL) return NULL;
+    if (root->key == n1)
+    {
+        v1 = true;
+        return root;
+    }
+    if (root->key == n2)
+    {
+        v2 = true;
+        return root;
+    }
+    Node *left_lca  = findLCAUtil(root->left, n1, n2, v1, v2);
+    Node *right_lca = findLCAUtil(root->right, n1, n2, v1, v2);
+    if (left_lca && right_lca)  return root;
+    return (left_lca != NULL)? left_lca: right_lca;
+}
+bool find(Node *root, int k)
+{
+    if (root == NULL)
+        return false;
+    if (root->key == k || find(root->left, k) ||  find(root->right, k))
+        return true;
+    return false;
+}
+Node *findLCA(Node *root, int n1, int n2)
+{
+    bool v1 = false, v2 = false;
+    Node *lca = findLCAUtil(root, n1, n2, v1, v2);
+    if (v1 && v2 || v1 && find(lca, n2) || v2 && find(lca, n1))
+        return lca;
+    return NULL;
+}
+
+**Time Complexity- O(n)
+**Space Complexity-O(1)
