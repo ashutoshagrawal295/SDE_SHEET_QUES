@@ -1,0 +1,64 @@
+#Given the root of a binary tree, return the length of the diameter of the tree.
+ The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+ The length of a path between two nodes is represented by the number of edges between them.
+ 
+##Approach 1
+
+    int diameterOfBinaryTree(TreeNode* root) {
+        int max=0;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(q.empty()==false)
+        {
+            TreeNode* node=q.front();
+            int c=maxDepth(node->left)+maxDepth(node->right)+2;
+            if(c>max)
+            {
+                max=c;
+            }
+            if(node->left){q.push(node->left);}
+            if(node->right){q.push(node->right);}
+            q.pop();
+        }
+        return max;
+    }
+
+**Time Complexity- o(n*n)
+**Space Complexity- O(n)
+
+##Approach 2
+
+int diameter(struct node* tree)
+{
+    if (tree == NULL)
+        return 0;
+    int lheight = height(tree->left);
+    int rheight = height(tree->right);
+    int ldiameter = diameter(tree->left);
+    int rdiameter = diameter(tree->right);
+    return max(lheight + rheight + 1,
+            max(ldiameter, rdiameter));
+}
+
+**Time Complexity- o(n*n)
+**Space Complexity- O(1)
+
+##Approach 3
+
+int diameterOpt(struct node* root, int* height)
+{
+    int lh = 0, rh = 0;
+    int ldiameter = 0, rdiameter = 0;
+  
+    if (root == NULL) {
+        *height = 0;
+        return 0; 
+    }
+    ldiameter = diameterOpt(root->left, &lh);
+    rdiameter = diameterOpt(root->right, &rh);
+    *height = max(lh, rh) + 1;
+    return max(lh + rh + 1, max(ldiameter, rdiameter));
+}
+
+**Time Complexity- o(n)
+**Space Complexity- O(1)
