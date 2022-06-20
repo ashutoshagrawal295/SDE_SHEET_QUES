@@ -1,0 +1,92 @@
+#Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+
+##Approach 1
+
+int height(node* root)
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        int hl=root&&root->left?height(root->left):0;
+        int hr=root&&root->right?height(root->right):0;
+        return hl>hr?hl+1:hr+1;
+    }
+void printCurrentLevel(node* root, int level)
+{
+    if (root == NULL)
+        return;
+    if (level == 1)
+        cout << root->data << " ";
+    else if (level > 1) {
+        printCurrentLevel(root->left, level - 1);
+        printCurrentLevel(root->right, level - 1);
+    }
+}
+void printLevelOrder(node* root)
+{
+    int h = height(root);
+    int i;
+    for (i = 1; i <= h; i++)
+        printCurrentLevel(root, i);
+}
+
+**Time Complexity- o(n*n)
+**Space Complexity- O(1)
+
+##Approach 2
+
+void printLevelOrder(Node* root)
+{
+    if (root == NULL)
+        return;
+    queue<Node*> q;
+    q.push(root);
+ 
+    while (q.empty() == false) {
+        Node* node = q.front();
+        cout << node->data << " ";
+        q.pop();
+ 
+        if (node->left != NULL)
+            q.push(node->left);
+ 
+        if (node->right != NULL)
+            q.push(node->right);
+    }
+}
+
+**Time Complexity- o(n)
+**Space Complexity- O(n)
+
+##Approach 3
+
+    int height(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        int hl=root&&root->left?height(root->left):0;
+        int hr=root&&root->right?height(root->right):0;
+        return hl>hr?hl+1:hr+1;
+    }
+    void level(TreeNode* root, int l,vector<vector<int>>&v)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+            v[l-1].push_back(root->val);
+            level(root->left,l+1,v);
+            level(root->right,l+1,v);
+    }
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        int n=height(root);
+        vector<vector<int>> v(n);
+            level(root,1,v);
+        return v;
+    }
+
+**Time Complexity- o(n)
+**Space Complexity- O(1)
