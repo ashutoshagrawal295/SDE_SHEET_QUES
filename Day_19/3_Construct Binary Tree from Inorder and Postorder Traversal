@@ -1,0 +1,105 @@
+#Given two integer arrays inorder and postorder where inorder and postorder are the inorder and postorder traversal of the same tree,construct and return the binary tree.
+
+##Approach 1
+
+Node *build(int in[], int post[],int n,int poststart,int postend, int istart,int iend) {
+    if(istart>iend||postend<poststart)
+    {
+        return NULL;
+    }
+    Node* temp= new Node(post[postend]);
+    int ele=find(in,in+n,post[postend])-in-istart;
+    temp->left=build(in,post,n,poststart,poststart+ele-1,istart,istart+ele-1);
+    temp->right=build(in,post,n,poststart+ele,postend-1,istart+ele+1,iend);
+    return temp;
+}
+Node *buildTree(int in[], int post[], int n) {
+    return build(in,post,n,0,n-1,0,n-1);
+}
+
+**Time Complexity- O(n*n)
+**Space Complexity- O(1)
+
+##Approach 2
+
+Node *buildTree(int in[], int post[], int n)
+{
+  stack<Node*> st;
+  set<Node*> s;
+  int postIndex = n - 1;
+  Node* root = NULL;
+ 
+  for (int p = n - 1, i = n - 1; p>=0) 
+  {
+    Node* node = NULL;
+    do
+    {
+      node = new Node(post[p]);
+      if (root == NULL)
+      {
+        root = node;
+      }
+      if (st.size() > 0) 
+      {
+        if (s.find(st.top()) != s.end())
+        {
+          s.erase(st.top());
+          st.top()->left = node;
+          st.pop();
+        }
+        else
+        {
+          st.top()->right = node;
+        }
+      }
+      st.push(node);
+    } while (post[p--] != in[i] && p >=0);
+ 
+    node = NULL;
+    while (st.size() > 0 && i>=0 && 
+           st.top()->data == in[i]) 
+    {
+      node = st.top();
+      st.pop();
+      i--;
+    }
+    if (node != NULL) 
+    {
+      s.insert(node);
+      st.push(node);
+    }
+  }
+  return root;
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+##Approach 3
+
+Node* buildUtil(int in[], int post[], int inStrt,int inEnd, int* pIndex, unordered_map<int, int>& mp)
+{
+    if (inStrt > inEnd)
+        return NULL;
+    int curr = post[*pIndex];
+    Node* node = newNode(curr);
+    (*pIndex)--;
+    if (inStrt == inEnd)
+        return node;
+    int iIndex = mp[curr];
+    node->right = buildUtil(in, post, iIndex + 1,inEnd, pIndex, mp);
+    node->left = buildUtil(in, post, inStrt,iIndex - 1, pIndex, mp);
+    return node;
+}
+struct Node* buildTree(int in[], int post[], int len)
+{
+    unordered_map<int, int> mp;
+    for (int i = 0; i < len; i++)
+        mp[in[i]] = i;
+ 
+    int index = len - 1; 
+    return buildUtil(in, post, 0, len - 1, &index, mp);
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
