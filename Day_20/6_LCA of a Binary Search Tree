@@ -1,0 +1,34 @@
+#Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+
+##Approach 1
+
+node *lca(node* root, int n1, int n2)
+{
+    if (root == NULL) return NULL;
+    if (root->data > n1 && root->data > n2)
+        return lca(root->left, n1, n2);
+    if (root->data < n1 && root->data < n2)
+        return lca(root->right, n1, n2);
+    return root;
+}
+
+**Time Complexity- O(h)
+**Space Complexity-O(1)
+
+##Approach 2
+
+node *lca(node* root, int n1, int n2)
+{
+    while (root != NULL)
+    {
+        if (root->data > n1 && root->data > n2)
+        root = root->left;
+        else if (root->data < n1 && root->data < n2)
+        root = root->right;
+        else break;
+    }
+    return root;
+}
+
+**Time Complexity- O(h)
+**Space Complexity-O(1)
