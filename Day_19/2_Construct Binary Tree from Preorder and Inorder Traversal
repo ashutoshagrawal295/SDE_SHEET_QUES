@@ -1,0 +1,104 @@
+#Given two integer arrays preorder and inorder where preorder and inorder are the preorder and inorder traversal of the same tree, construct and return the binary tree.
+
+##Approach 1
+
+class Solution {
+public:
+     TreeNode* build(vector<int>& preorder, vector<int>& inorder,int pstart,int pend,int istart,int iend)
+     {
+         if(pstart>pend||istart>iend)
+         {
+             return NULL;
+         }
+         TreeNode* temp=new TreeNode(preorder[pstart]);
+         int ele=find(inorder.begin(),inorder.end(),preorder[pstart])-inorder.begin()-istart;
+         temp->left=build(preorder,inorder,pstart+1,pstart+ele,istart,istart+ele-1);
+         temp->right=build(preorder,inorder,pstart+ele+1,pend,istart+ele+1,iend);
+         return temp;
+     }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        return build(preorder,inorder,0,inorder.size()-1,0,inorder.size()-1);
+    }
+};
+
+**Time Complexity- O(n*n)
+**Space Complexity- O(1)
+
+##Approach 2
+
+node * constructTree(vector < int > & preorder, int preStart, int preEnd, vector < int > & inorder, int inStart, int inEnd, map < int, int > & mp) {
+  if (preStart > preEnd || inStart > inEnd) return NULL;
+  node * root = newNode(preorder[preStart]);
+  int elem = mp[root -> data];
+  int nElem = elem - inStart;
+  root -> left = constructTree(preorder, preStart + 1, preStart + nElem, inorder,
+  inStart, elem - 1, mp);
+  root -> right = constructTree(preorder, preStart + nElem + 1, preEnd, inorder, 
+  elem + 1, inEnd, mp);
+  return root;
+}
+
+node * buildTree(vector < int > & preorder, vector < int > & inorder) {
+  int preStart = 0, preEnd = preorder.size() - 1;
+  int inStart = 0, inEnd = inorder.size() - 1;
+  map < int, int > mp;
+  for (int i = inStart; i <= inEnd; i++) {
+    mp[inorder[i]] = i;
+  }
+  return constructTree(preorder, preStart, preEnd, inorder, inStart, inEnd, mp);
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+##Approach 3
+
+TreeNode* buildTree(int preorder[], int inorder[],int n)
+{
+    set<TreeNode*> s;
+    stack<TreeNode*> st;
+    TreeNode* root = NULL;
+    for (int pre = 0, in = 0; pre < n;)
+    {
+        TreeNode* node = NULL;
+        do
+        {
+            node = new TreeNode(preorder[pre]);
+            if (root == NULL)
+            {
+                root = node;
+            }
+            if (st.size() > 0)
+            {
+                if (s.find(st.top()) != s.end())
+                {
+                    s.erase(st.top());
+                    st.top()->right = node;
+                    st.pop();
+                }
+                else
+                {
+                    st.top()->left = node;
+                }
+            }
+            st.push(node);
+        } while (preorder[pre++] != inorder[in] && pre < n);
+        node = NULL;
+        while (st.size() > 0 && in < n &&
+                st.top()->val == inorder[in])
+        {
+            node = st.top();
+            st.pop();
+            in++;
+        }
+        if (node != NULL)
+        {
+            s.insert(node);
+            st.push(node);
+        }
+    } 
+    return root;
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
