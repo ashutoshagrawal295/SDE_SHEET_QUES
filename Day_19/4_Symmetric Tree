@@ -1,0 +1,72 @@
+#Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+##Approach 1
+
+bool isSymmetric(struct Node* root)
+{
+    if(root == NULL)
+        return true;
+    if(!root->left && !root->right)
+        return true;
+     
+    queue <Node*> q;
+    q.push(root);
+    q.push(root);
+    Node* leftNode, *rightNode;
+     
+    while(!q.empty()){
+        leftNode = q.front();
+        q.pop();
+         
+        rightNode = q.front();
+        q.pop();
+        if(leftNode->key != rightNode->key){
+        return false;
+        }
+        if(leftNode->left && rightNode->right){
+            q.push(leftNode->left);
+            q.push(rightNode->right);
+        }
+        else if (leftNode->left || rightNode->right)
+        return false;
+        if(leftNode->right && rightNode->left){
+            q.push(leftNode->right);
+            q.push(rightNode->left);
+        }
+        else if(leftNode->right || rightNode->left)
+        return false;
+    }
+    return true;
+}
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+##Approach 2
+
+class Solution {
+public:
+    bool check(TreeNode* p,TreeNode* q)
+    {
+        if(!p&&!q)
+        {
+            return 1;
+        }
+        if(p&&q)
+        {
+            if(p->val==q->val){
+                if(check(p->left,q->right)&&check(q->left,p->right))
+                {
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+    bool isSymmetric(TreeNode* root) {
+        return check(root->left,root->right);
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
