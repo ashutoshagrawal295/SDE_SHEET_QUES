@@ -1,0 +1,40 @@
+#Given an undirected Graph, check for a cycle using BFS (Breadth-First Search) Traversal.
+
+##Approach 1
+
+class Solution {
+  public:
+    bool isCycle(int V, vector<int> adj[]) {
+        vector<int> vis(V,0);
+        queue<pair<int,int>> q;
+        pair<int,int> p;
+        for(int i=0;i<V;i++)
+        {
+            if(!vis[i])
+            {
+                q.push({i,-1});
+                while(!q.empty())
+                {
+                    p=q.front();
+                    q.pop();
+                    vis[p.first]=1;
+                    for(auto it:adj[p.first])
+                    {
+                        if(it!=p.second)
+                        {
+                            if(vis[it])
+                            {
+                                return 1;
+                            }
+                            q.push({it,p.first});
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+};
+
+**Time Complexity- O(V+E)
+**Space Complexity- O(V+E)+O(V)+O(V)
