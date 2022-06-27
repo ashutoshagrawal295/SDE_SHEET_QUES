@@ -1,0 +1,79 @@
+#Given a weighted, undirected and connected graph of V vertices and E edges. The task is to find the sum of weights of the edges of the Minimum Spanning Tree.
+
+##Approach 1
+
+class Solution
+{
+	public:
+    int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        vector<int> key(V,INT_MAX),vis(V,0);
+        key[0]=0;
+        for(int i=0;i<V-1;i++)
+        {
+            int min=INT_MAX,v;
+            for(int j=0;j<V;j++)
+            {
+                if(vis[j]==0&&key[j]<min)
+                {
+                    min=key[j];
+                    v=j;
+                }
+            }
+            vis[v]=1;
+            for(auto it:adj[v])
+            {
+                if(vis[it[0]]==0&&key[it[0]]>it[1])
+                {
+                    key[it[0]]=it[1];
+                }
+            }
+        }
+        int sum=0;
+        for(auto it:key)
+        {
+            sum+=it;
+        }
+        return sum;
+    }
+};
+
+**Time Complexity- O(V*V)
+**Space Complexity- O(V+E)+O(V)+O(V)
+
+##Approach 2
+
+class Solution
+{
+	public:
+    int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        vector<int> key(V,INT_MAX),vis(V,0);
+        set<pair<int,int>> s;
+        key[0]=0;
+        s.insert({0,0});
+        while(!s.empty())
+        {
+            auto v=*s.begin();
+            s.erase(v);
+            vis[v.second]=1;
+            for(auto it:adj[v.second])
+            {
+                if(vis[it[0]]==0&&key[it[0]]>it[1])
+                {
+                    key[it[0]]=it[1];
+                    s.insert({it[1],it[0]});
+                }
+            }
+        }
+        int sum=0;
+        for(auto it:key)
+        {
+            sum+=it;
+        }
+        return sum;
+    }
+};
+
+**Time Complexity- O((V+E)*log(V+E))
+**Space Complexity- O(V+E)+O(V)+O(V)+O(V)
