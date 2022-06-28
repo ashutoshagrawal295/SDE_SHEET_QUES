@@ -1,0 +1,68 @@
+#Given a weighted, undirected and connected graph of V vertices and E edges. The task is to find the sum of weights of the edges of the Minimum Spanning Tree.
+
+##Approach 1
+
+class Solution
+{
+	public:
+	int find(int i,vector<int>&parent)
+	{
+	    if(i==parent[i])
+	    {
+	        return i;
+	    }
+	    return parent[i]=find(parent[i],parent);
+	}
+	void unite(int u,int v,vector<int>&rank,vector<int>&parent)
+	{
+	    int i=find(u,parent);
+	    int j=find(v,parent);
+	    if(rank[i]>rank[j])
+	    {
+	        parent[j]=i;
+	    }
+	    else if(rank[i]<rank[j])
+	    {
+	        parent[i]=j;
+      }
+	    else
+	    {
+	        parent[j]=i;
+	        rank[i]++;
+	    }
+	}
+    int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        vector<pair<int,pair<int,int>>> edges;
+        int ans=0;
+        vector<int> rank(V,0),parent(V,0);
+        for(int i=0;i<V;i++)
+        {
+            parent[i]=1;
+            for(auto it:adj[i])
+            {
+                if(parent[it[0]]==0)
+                {
+                    edges.push_back({it[1],{it[0],i}});
+                }
+            }
+        }
+        sort(edges.begin(),edges.end());
+        for(int i=0;i<V;i++)
+        {
+            parent[i]=i;
+        }
+        for(auto it:edges)
+        {
+            if(find(it.second.first,parent)!=find(it.second.second,parent))
+            {
+                unite(it.second.first,it.second.second,rank,parent);
+                ans+=it.first;
+            }
+        }
+        return ans;
+    }
+};
+
+**Time Complexity- O(E*logE)+O(E*4*alpha)
+**Space Complexity- O(V+E)+O(V+E)+O(V)+O(V)
