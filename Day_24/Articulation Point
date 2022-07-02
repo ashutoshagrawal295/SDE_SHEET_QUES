@@ -1,0 +1,60 @@
+one by one remove all vertices and see if removal of a vertex causes disconnected graph. O(V*(V+E))
+
+class Solution {
+  public:
+  void dfs(vector<int> adj[],int parent,vector<int> &tin,vector<int>&low,
+    vector<int>&vis,int i,int &timer,vector<int>&isArticulation)
+    {
+        low[i]=timer++;
+        tin[i]=timer++;
+        vis[i]=1;
+        int child=0;
+        for(auto it:adj[i])
+        {
+            if(it==parent){
+                continue;
+            }
+            if(!vis[it])
+            {
+                child++;
+                dfs(adj,i,tin,low,vis,it,timer,isArticulation);
+                low[i] = min(low[i], low[it]);
+                if(low[it]>=tin[i]&&parent!=-1)
+                {
+                    isArticulation[i] = 1;
+                }
+            }
+            else
+            {
+                low[i]=min(low[i],tin[it]);
+            }
+        }
+        if(parent==-1&&child>1)
+        {
+            isArticulation[i] = 1;
+        }
+    }
+    vector<int> articulationPoints(int V, vector<int>adj[]) {
+        vector<int> tin(V),low(V),vis(V,0),isArticulation(V,0);
+        vector<int>vec;
+        for(int i=0;i<V;i++)
+        {
+            int timer=0;
+            if(!vis[i])
+            {
+                dfs(adj,-1,tin,low,vis,i,timer,isArticulation);
+            }
+        }
+        for(int i=0;i<V;i++)
+        {
+            if(isArticulation[i] == 1)
+                vec.push_back(i);
+        }
+        if(vec.size()==0)
+        {
+            vec.push_back(-1);
+        }
+        return vec;
+    }
+};
+O(V+E) O(V+E)+5*O(V)
