@@ -1,0 +1,55 @@
+one by one remove all edges and see if removal of an edge causes disconnected graph  O(E*(V+E))
+
+class Solution
+{
+	public:
+    void dfs(vector<int> adj[],int parent,vector<int> &tin,vector<int>&low,
+    vector<int>&vis,int i,int &timer,vector<pair<int,int>>&v)
+    {
+        low[i]=timer++;
+        tin[i]=timer++;
+        vis[i]=1;
+        for(auto it:adj[i])
+        {
+            if(it==parent){
+                continue;
+            }
+            if(!vis[it])
+            {
+                dfs(adj,i,tin,low,vis,it,timer,v);
+                low[i] = min(low[i], low[it]);
+                if(low[it]>tin[i])
+                {
+                    v.push_back({i,it});
+                }
+            }
+            else
+            {
+                low[i]=min(low[i],tin[it]);
+            }
+        }
+    }
+    int isBridge(int V, vector<int> adj[], int c, int d) 
+    {
+        vector<int> tin(V),low(V),vis(V,0);
+        vector<pair<int,int>>v;
+        for(int i=0;i<V;i++)
+        {
+            int timer=0;
+            if(!vis[i])
+            {
+                dfs(adj,-1,tin,low,vis,i,timer,v);
+            }
+        }
+        for(auto it:v)
+        {
+            if(make_pair(c,d)==it||make_pair(d,c)==it)
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+};
+
+O(V+E)  O(V+E)+3*O(V)+O(E)
