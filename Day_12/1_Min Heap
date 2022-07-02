@@ -1,0 +1,60 @@
+#Implement the Min Heap data structure.You will be given 2 types of queries:-
+ 0 X
+ Insert X in the heap.
+ 1
+ Print the minimum element from the heap and remove it.
+
+##Approach 1
+
+void insert(vector<int> &arr,int n)
+{
+    arr.push_back(n);
+    int i=arr.size()-1;
+    while(i!=1&&arr[i/2]>arr[i])
+    {
+        swap(arr[i],arr[i/2]);
+        i/=2;
+    }
+}
+void heapify(vector<int> &arr,int i)
+{
+    int smallest = i;
+    int l=2*i,r=2*i+1;
+    if (l < arr.size() && arr[l] < arr[i])
+        smallest = l;
+    if (r < arr.size() && arr[r] < arr[smallest])
+        smallest = r;
+    if (smallest != i)
+    {
+        swap(arr[i],arr[smallest]);
+        heapify(arr,smallest);
+    }
+}
+int del(vector<int> &arr)
+{
+    int n=arr[1];
+    arr[1]=arr.back();
+    arr.pop_back();
+    heapify(arr,1);
+    return n;
+}
+vector<int> minHeap(int n, vector<vector<int>>& q) {
+    vector<int> arr;
+    arr.push_back(0);
+    vector<int> v;
+    for(int i=0;i<n;i++)
+    {
+        if(q[i][0]==0)
+        {
+            insert(arr,q[i][1]);
+        }
+        else
+        {
+            v.push_back(del(arr));
+        }
+    }
+    return v;
+}
+
+**Time Complexity- O(n*logn)
+**Space Complexity- O(n)
