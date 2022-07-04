@@ -1,0 +1,78 @@
+#Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+
+##Approach 1
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> um;
+        vector<int> vec;
+        for (int i = 0; i < nums.size(); i++)
+            um[nums[i]]++;
+        vector<pair<int, int> > freq_arr(um.begin(), um.end());
+        sort(freq_arr.begin(), freq_arr.end(),[](pair<int, int> p1, pair<int, int> p2){return p1.second >p2.second;});
+        for (int i = 0; i < k; i++)
+            vec.push_back(freq_arr[i].first);
+        return vec;
+    }
+};
+
+**Time Complexity- O(n)+O(d)+O(d*logd)+O(k)
+**Space Complexity- 4*O(d)+O(k)
+
+##Approach 2
+
+class Solution {
+public:
+    struct compare {
+        bool operator()(pair<int, int> p1, pair<int, int> p2)
+        {
+            return p1.second < p2.second;
+        }
+    };
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        vector<int> vec;
+        unordered_map<int, int> um;
+    for (int i = 0; i < nums.size(); i++)
+        um[nums[i]]++;
+    priority_queue<pair<int, int>, vector<pair<int, int> >,
+        compare>
+        pq(um.begin(), um.end());
+    for (int i = 1; i <= k; i++) {
+        vec.push_back(pq.top().first);
+        pq.pop();
+    }
+        return vec;
+    }
+};
+
+**Time Complexity- O(n)+O(d)+O(k*logd)
+**Space Complexity- 4*O(d)+O(k)
+
+##Approach 3
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> um;
+        vector<int> vec;
+        for (int i = 0; i < nums.size(); i++)
+            um[nums[i]]++;
+        vector<int> freq[nums.size() + 1];
+        for (auto x : um)
+            freq[x.second].push_back(x.first);
+        int count = 0;
+        for (int i = nums.size(); i >= 0; i--) {
+            for (int x : freq[i]) {
+                vec.push_back(x);
+                count++;
+                if (count == k)
+                    return vec;
+            }
+        }
+        return vec;
+    }
+};
+
+**Time Complexity- O(n)+O(d)+O(k)
+**Space Complexity- 2*O(d)+O(k)+O(n*d);
