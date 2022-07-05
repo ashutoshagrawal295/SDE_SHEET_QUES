@@ -1,0 +1,87 @@
+#You have been given ‘K’ different arrays/lists, which are sorted individually (in ascending order). You need to merge all the given arrays/list such that the output 
+ array/list should be sorted in ascending order.
+ 
+##Approach 1
+
+vector<int> mergeKSortedArrays(vector<vector<int>>&arr, int k)
+{
+    vector<int> v;
+    for(int i=0; i<k; i++)
+    {
+        for(int j=0; j<arr[i].size() ;j++)
+            v.push_back(arr[i][j]);
+    }
+    sort(v.begin(),v.end());
+    return v;
+}
+
+**Time Complexity- O(N*logN)
+**Space Complexity- O(N)
+
+##Approach 2
+
+void mergeArrays(vector<int>&arr1,vector<int>&arr2,vector<int>&arr3) 
+{ 
+    int i = 0, j = 0, k = 0,n1=arr1.size(),n2=arr2.size(); 
+    while (i<n1 && j <n2) 
+    { 
+        if (arr1[i] < arr2[j]) 
+            arr3.push_back(arr1[i++]); 
+        else
+            arr3.push_back(arr2[j++]); 
+    } 
+    while (i < n1) 
+        arr3.push_back(arr1[i++]); 
+    while (j < n2) 
+        arr3.push_back(arr2[j++]); 
+}
+void mergeKArrays(vector<vector<int>>&arr,int i,int j,vector<int>&output)
+{
+    if(i==j)
+    {
+        for(int p=0; p < arr[i].size(); p++)
+        output.push_back(arr[i][p]);
+        return;
+    }
+    if(j-i==1)
+    {
+        mergeArrays(arr[i],arr[j],output);
+        return;
+    }
+    vector<int> out1,out2;
+    mergeKArrays(arr,i,(i+j)/2,out1);
+    mergeKArrays(arr,(i+j)/2+1,j,out2);
+    mergeArrays(out1,out2,output);      
+}
+vector<int> mergeKSortedArrays(vector<vector<int>>&arr, int k)
+{
+    vector<int> v;
+    mergeKArrays(arr,0,k-1,v);
+    return v;
+}
+
+**Time Complexity- O(N*logk)
+**Space Complexity- O(N*logk)
+
+##Approach 3
+
+typedef pair<int, pair<int, int> > ppi;
+vector<int> mergeKSortedArrays(vector<vector<int>>&arr,int k)
+{
+    vector<int> output;
+    priority_queue<ppi, vector<ppi>, greater<ppi> > pq;
+    for (int i = 0; i <k; i++)
+        pq.push({ arr[i][0], { i, 0 } });
+    while (pq.empty() == false) {
+        ppi curr = pq.top();
+        pq.pop();
+        int i = curr.second.first;
+        int j = curr.second.second;
+        output.push_back(curr.first);
+        if (j + 1 < arr[i].size())
+            pq.push({ arr[i][j + 1], { i, j + 1 } });
+    }
+    return output;
+}
+**Time Complexity- O(N*logk)
+**Space Complexity- O(N)
