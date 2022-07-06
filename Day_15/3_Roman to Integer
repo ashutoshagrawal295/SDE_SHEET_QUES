@@ -1,0 +1,34 @@
+#Given a roman numeral, convert it to an integer.
+
+##Approach 1
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        int c=0,max=1;
+        unordered_map<char,int> m;
+        m['V']=5;
+        m['I']=1;
+        m['X']=10;
+        m['L']=50;
+        m['C']=100;
+        m['D']=500;
+        m['M']=1000;
+        for(int i=s.length()-1;i>=0;i--)
+        {
+            if(m[s[i]]<max)
+            {
+                c-=m[s[i]];
+            }
+            else
+            {
+                c+=m[s[i]];
+                max=m[s[i]];
+            }
+        }
+        return c;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(1)
