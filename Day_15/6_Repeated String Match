@@ -1,0 +1,222 @@
+#Given two strings a and b, return the minimum number of times you should repeat string a so that string b is a substring of it. 
+ If it is impossible for b to be a substring of a after repeating it, return -1.
+ 
+##Approach 1
+
+class Solution {
+public:
+    bool check(string a,string b)
+    {
+        for(int i=0;i<=a.length()-b.length();i++)
+        {
+            int j=0;
+            for(j=0;j<b.length();j++)
+            {
+                if(a[i+j]!=b[j])
+                {
+                    break;   
+                }
+            }
+            if(j==b.length())
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    int repeatedStringMatch(string a, string b) {
+        string s=a;
+        int ans=1;
+        while(s.length()<b.length())
+        {
+            s+=a;
+            ans++;
+        }
+        if(check(s,b))
+        {
+            return ans;
+        }
+        if(check(s+a,b))
+        {
+            return ans+1;
+        }
+        return -1;
+    }
+};
+
+**Time Complexity- O(n*m)
+**Space Complexity- O(m)
+
+##Approach 2
+
+class Solution {
+public:
+    int repeatedStringMatch(string a, string b) {
+        int k=0,j,c=1;
+        for(int i=0;i<a.length();i++)
+        {
+            j=i;k=0;c=1;
+            while(k<b.length()&&a[j]==b[k])
+            {
+                if(k==b.length()-1)
+                {
+                    return c;
+                }
+                j=(j+1)%a.length();
+                if(j==0)
+                {
+                    c++;
+                }
+                k++;
+            }
+        }
+        return -1;
+    }
+};
+
+**Time Complexity- O(n*m)
+**Space Complexity- O(1)
+
+##Approach 3
+
+class Solution {
+public:
+    int search(string txt ,string pat) 
+    { 
+        int M = pat.length(); 
+        int N = txt.length(); 
+        int i, j; 
+        long long p = 0; 
+        long long t = 0; 
+        long long h = 1; 
+        int d=26;
+        int q =INT_MAX;
+        for (i = 0; i < M - 1; i++) 
+            h = (h * d) % q; 
+        for (i = 0; i < M; i++) 
+        { 
+            p = (d * p + pat[i]) % q; 
+            t = (d * t + txt[i]) % q; 
+        } 
+        for (i = 0; i <= N - M; i++) 
+        { 
+            if ( p == t ) 
+            {   
+                for (j = 0; j < M; j++) 
+                { 
+                    if (txt[i+j] != pat[j])
+                    {
+                      break;
+                    }                  
+
+                } 
+                if (j == M) 
+                    return 1;
+            } 
+            if ( i < N-M ) 
+            { 
+                t = (d*(t - txt[i]*h) + txt[i+M])%q; 
+                if (t < 0) 
+                t = (t + q); 
+            } 
+        } 
+        return 0;
+    }
+    int repeatedStringMatch(string a, string b) {
+        string s=a;
+        int ans=1;
+        while(s.length()<b.length())
+        {
+            s+=a;
+            ans++;
+        }
+        if(search(s,b))
+        {
+            return ans;
+        }
+        if(search(s+a,b))
+        {
+            return ans+1;
+        }
+        return -1;
+    }
+};
+
+**Time Complexity- O(n+m) worst case- O(n*m)
+**Space Complexity- O(m)
+
+##Approach 4
+
+class Solution {
+public:
+    void computeLPSArray(string pat, int M,int* lps)
+    {
+        int len = 0;
+        lps[0] = 0; 
+        int i = 1;
+        while (i < M) {
+            if (pat[i] == pat[len]) {
+                len++;
+                lps[i] = len;
+                i++;
+            }
+            else 
+            {
+                if (len != 0) {
+                    len = lps[len - 1];
+                }
+                else 
+                {
+                    lps[i] = 0;
+                    i++;
+                }
+            }
+        }
+    }
+    int KMPSearch(string txt,string pat)
+    {
+        int M = pat.length();
+        int N = txt.length();
+        int lps[M];
+        computeLPSArray(pat, M, lps);
+        int i = 0; 
+        int j = 0; 
+        while (i < N) {
+            if (pat[j] == txt[i]) {
+                j++;
+                i++;
+            }
+            if (j == M) {
+                return 1;
+            }
+            else if (i < N && pat[j] != txt[i]) {
+                if (j != 0)
+                    j = lps[j - 1];
+                else
+                    i = i + 1;
+            }
+        }
+            return 0;
+    }
+    int repeatedStringMatch(string a, string b) {
+        string s=a;
+        int ans=1;
+        while(s.length()<b.length())
+        {
+            s+=a;
+            ans++;
+        }
+        if(KMPSearch(s,b))
+        {
+            return ans;
+        }
+        if(KMPSearch(s+a,b))
+        {
+            return ans+1;
+        }
+        return -1;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(m)
