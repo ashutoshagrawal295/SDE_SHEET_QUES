@@ -1,0 +1,83 @@
+#Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+##Approach 1
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if(s.length()!=t.length())
+        {
+            return 0;
+        }
+        sort(s.begin(), s.end());
+        sort(t.begin(), t.end());
+        if(s!=t)
+        {
+            return 0;
+        }
+        return 1;
+    }
+};
+
+**Time Complexity- O(n*logn)
+**Space Complexity- O(1)
+
+##Approach 2
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if(s.length()!=t.length())
+        {
+            return 0;
+        }
+        int count[26] = { 0 };
+        for (int i = 0;i<s.length(); i++) {
+            count[s[i]-'a']++;
+            count[t[i]-'a']--;
+        }
+        for (int i = 0; i <26; i++)
+            if (count[i])
+                return false;
+        return true;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
+
+##Approach 3
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if(s.length()!=t.length())
+        {
+            return 0;
+        }
+        unordered_map<char,int> m;
+        for(int i=0;i<s.length();i++)
+        {
+            m[s[i]]+=1;
+        }
+        for(int i=0;i<t.length();i++)
+        {
+            if(m.find(t[i])==m.end())
+            {
+                return 0;
+            }
+            m[t[i]]-=1;
+        }
+        for(auto it:m)
+        {
+            if(it.second!=0)
+            {
+                return 0;
+            }
+        }
+        return 1;
+    }
+};
+
+**Time Complexity- O(n)
+**Space Complexity- O(n)
