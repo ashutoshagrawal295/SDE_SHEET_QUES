@@ -14,16 +14,16 @@ We can simply use 2 loops and track every transaction and maintain a variable ma
 class Solution {
 public:
     int maxProfit(vector<int>& p) {
-        int ans=0,max=p[0];
+        int ans=0,min=p[0];
         for(int i=1;i<p.size();i++)
         {
-            if(p[i]<max)
+            if(p[i]<min)
             {
-                max=p[i];
+                min=p[i];
             }
             else
             {
-                ans=ans>p[i]-max?ans:p[i]-max;
+                ans=max(ans,p[i]-min);
             }
         }
         return ans;
