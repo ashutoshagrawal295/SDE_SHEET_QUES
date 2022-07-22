@@ -45,5 +45,5 @@ int height(TreeNode* root)
         return 1+(hl>hr?hl:hr);
     }
 
-**Time Complexity- o(n)
+**Time Complexity- o(logn)
 **Space Complexity- O(1)
