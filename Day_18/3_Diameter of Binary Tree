@@ -23,7 +23,7 @@
         return max;
     }
 
-**Time Complexity- o(n*n)
+**Time Complexity- o(n*logn)
 **Space Complexity- O(n)
 
 ##Approach 2
@@ -40,7 +40,7 @@ int diameter(struct node* tree)
             max(ldiameter, rdiameter));
 }
 
-**Time Complexity- o(n*n)
+**Time Complexity- o(n*logn)
 **Space Complexity- O(1)
 
 ##Approach 3
